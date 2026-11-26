@@ -38,9 +38,10 @@ def route(method, pattern):
 class Request:
     """What a handler gets: the store, the caller, the query string and the JSON body."""
 
-    def __init__(self, store, user, query, body):
+    def __init__(self, store, user, query, body, user_header=None):
         self.store = store
         self.user = user
+        self.user_header = user_header  # raw X-User, None when absent
         self.query = query
         self.body = body
 
@@ -56,6 +57,12 @@ def health(req):
 @route("GET", "/repositories")
 def list_repositories(req):
     return 200, service.list_repositories(req.store, req.user)
+
+
+@route("POST", "/repositories")
+def register_repository(req):
+    # No alice default here: registering needs an explicit X-User (TASK-001 AC6).
+    return 201, service.register_repository(req.store, req.user_header, req.body)
 
 
 @route("GET", r"/repositories/(\d+)")
@@ -114,7 +121,8 @@ class Handler(BaseHTTPRequestHandler):
                 self._send(400, {"error": f"Body is not valid JSON: {error}"})
                 return
 
-            request = Request(self.server.store, self.headers.get("X-User", DEFAULT_USER), query, body)
+            user_header = self.headers.get("X-User")
+            request = Request(self.server.store, user_header or DEFAULT_USER, query, body, user_header)
             try:
                 status, payload = func(request, *match.groups())
             except service.ServiceError as error:

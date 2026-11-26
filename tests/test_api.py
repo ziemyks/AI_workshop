@@ -89,6 +89,70 @@ class ApiTests(unittest.TestCase):
             OPENER.open(request, timeout=5)
         self.assertEqual(caught.exception.code, 400)
 
+    # TASK-001: register a repository
+
+    NEW = {"name": "  docs-site ", "url": " https://github.com/example-org/docs-site ", "description": " Docs "}
+
+    def test_register_creates_owned_repository_with_analysis(self):
+        status, repo = self.call("POST", "/repositories", user="bob", body=self.NEW)
+        self.assertEqual(status, 201)
+        self.assertEqual(repo["id"], 5)
+        self.assertEqual(
+            (repo["name"], repo["url"], repo["description"], repo["owner"]),
+            ("docs-site", "https://github.com/example-org/docs-site", "Docs", "bob"),
+        )
+        self.assertEqual(repo["registered_at"], repo["last_scanned_at"])
+        self.assertEqual(self.call("GET", "/repositories/5/analysis", user="bob")[0], 200)
+        self.assertIn("docs-site", [r["name"] for r in self.call("GET", "/repositories", user="bob")[1]])
+        self.assertNotIn("docs-site", [r["name"] for r in self.call("GET", "/repositories", user="alice")[1]])
+        self.assertEqual(self.call("GET", "/repositories/5", user="alice")[0], 403)
+        self.assertEqual(self.call("GET", "/repositories/5/analysis", user="alice")[0], 403)
+
+    def test_register_description_is_optional(self):
+        status, repo = self.call("POST", "/repositories", user="alice", body={"name": "a", "url": "http://x.org"})
+        self.assertEqual((status, repo["description"]), (201, ""))
+
+    def test_register_rejects_invalid_input(self):
+        bad_bodies = [
+            {"url": "https://x.org/a"},
+            {"name": "  ", "url": "https://x.org/a"},
+            {"name": "a"},
+            {"name": "a", "url": ""},
+            {"name": "a", "url": "ftp://x.org/a"},
+            {"name": "a", "url": "https://"},
+            {"name": "a", "url": "http://["},
+            {"name": "a", "url": "https://x.org/a b"},
+            {"name": "n" * 101, "url": "https://x.org/a"},
+            {"name": "a", "url": "https://x.org/a", "description": "d" * 501},
+            {"name": 5, "url": "https://x.org/a"},
+            ["not", "an", "object"],
+        ]
+        for body in bad_bodies:
+            with self.subTest(body=body):
+                self.assertEqual(self.call("POST", "/repositories", user="alice", body=body)[0], 400)
+        self.assertEqual(len(self.server.store.repositories), 4)
+
+    def test_register_limits_are_inclusive(self):
+        body = {"name": "n" * 100, "url": "https://x.org/a", "description": "d" * 500}
+        self.assertEqual(self.call("POST", "/repositories", user="alice", body=body)[0], 201)
+
+    def test_register_duplicate_url_conflicts(self):
+        self.assertEqual(self.call("POST", "/repositories", user="bob", body=self.NEW)[0], 201)
+        for user in ("bob", "chen"):
+            status, error = self.call("POST", "/repositories", user=user, body=self.NEW)
+            self.assertEqual((status, error), (409, {"error": "This URL is already registered"}))
+        seed_url = {"name": "copy", "url": "https://github.com/example-org/payments-api"}
+        self.assertEqual(self.call("POST", "/repositories", user="chen", body=seed_url)[0], 409)
+        self.assertEqual(len(self.server.store.repositories), 5)
+
+    def test_register_requires_known_user(self):
+        for user in (None, "mallory"):
+            with self.subTest(user=user):
+                self.assertEqual(self.call("POST", "/repositories", user=user, body=self.NEW)[0], 401)
+        self.assertEqual(len(self.server.store.repositories), 4)
+        # Other endpoints keep the alice default.
+        self.assertEqual(self.call("GET", "/repositories")[0], 200)
+
 
 if __name__ == "__main__":
     unittest.main()

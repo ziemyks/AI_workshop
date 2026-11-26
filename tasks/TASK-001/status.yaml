@@ -1,10 +1,10 @@
 task: TASK-001
-status: READY_FOR_DEVELOPMENT
-assigned_to: DEVELOPER
+status: READY_FOR_QA
+assigned_to: QA
 attempt: 1
-updated_by: ARCHITECT
+updated_by: DEVELOPER
 routing_mode: SELF_ROUTING
-routing_reason: Design ready
+routing_reason: Implementation ready for QA
 result: DONE
 issue:
   type:

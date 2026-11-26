@@ -13,6 +13,7 @@ The sample app keeps a list of code repositories that users have registered, and
 |---|---|---|
 | `GET /health` | Returns `{"status": "ok"}` | |
 | `GET /repositories` | Lists your repositories: `id`, `name`, `url`, `owner` | 401 unknown user |
+| `POST /repositories` | Registers a repository for the caller (`X-User` required, no `alice` default). Body: `name` (max 100), `url` (`http://` or `https://` with a host), optional `description` (max 500). Returns 201 with the full repository; its analysis exists at once. | 400 invalid input, 401 missing or unknown user, 409 URL already registered |
 | `GET /repositories/{id}` | One repository, with `description`, `registered_at` and `last_scanned_at` | 401, 403 not yours, 404 |
 | `GET /repositories/{id}/analysis` | The latest analysis: languages, files, lines of code, open findings, health score, contributors, summary | 401, 403, 404 |
 | `POST /repositories/{id}/scan` | Runs the analysis again now and returns it | 401, 403, 404 |
