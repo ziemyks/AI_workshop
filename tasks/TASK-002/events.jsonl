@@ -2,3 +2,4 @@
 {"timestamp":"2026-11-26T15:54:49Z","task":"TASK-002","agent":"PRODUCT_BA","event":"REQUIREMENTS_READY","to":"ARCHITECT","reason":"AC1-AC6 for removing an owned repository; permanent, URL reusable, X-User required, 403 for non-owners"}
 {"timestamp":"2026-11-26T15:56:49Z","task":"TASK-002","agent":"ARCHITECT","event":"DESIGN_READY","to":"DEVELOPER","reason":"DELETE /repositories/{id}: X-User required, 401/404/403 via _get_owned, 204, removes repository and analysis"}
 {"timestamp":"2026-11-26T15:58:20Z","task":"TASK-002","agent":"DEVELOPER","event":"IMPLEMENTATION_READY","to":"QA","reason":"DELETE /repositories/{id} built, suite 61 OK"}
+{"timestamp":"2026-11-26T16:00:26Z","task":"TASK-002","agent":"QA","event":"QA_PASSED","to":"PRODUCT_OWNER","attempt":1,"reason":"AC1-AC6 pass: 12 QA tests, full suite 73 OK"}
