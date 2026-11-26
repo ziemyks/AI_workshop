@@ -90,6 +90,15 @@ def scan_repository(store, username, repository_id):
     return dict(store.analyses[repository_id])
 
 
+def remove_repository(store, username, repository_id):
+    """Permanently remove one of the caller's repositories and its analysis."""
+    if not username:
+        raise Unauthorized("The X-User header is required")
+    _get_owned(store, username, repository_id)  # 401, 404 or 403 before any write
+    del store.repositories[repository_id]
+    store.analyses.pop(repository_id, None)
+
+
 def _text_field(body, field, max_length=None, required=True):
     value = body.get(field)
     if value is None and not required:

@@ -1,10 +1,10 @@
 task: TASK-002
-status: READY_FOR_DEVELOPMENT
-assigned_to: DEVELOPER
+status: READY_FOR_QA
+assigned_to: QA
 attempt: 1
-updated_by: ARCHITECT
+updated_by: DEVELOPER
 routing_mode: SELF_ROUTING
-routing_reason: Design ready; Developer builds DELETE /repositories/{id}.
+routing_reason: Implementation ready; QA checks AC1-AC6 for DELETE /repositories/{id}.
 result: DONE
 issue:
   type:

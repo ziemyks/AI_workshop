@@ -80,6 +80,13 @@ def scan_repository(req, repository_id):
     return 200, service.scan_repository(req.store, req.user, int(repository_id))
 
 
+@route("DELETE", r"/repositories/(\d+)")
+def remove_repository(req, repository_id):
+    # No alice default here: removing needs an explicit X-User (TASK-002 AC4).
+    service.remove_repository(req.store, req.user_header, int(repository_id))
+    return 204, None
+
+
 # --- Plumbing ------------------------------------------------------------------
 
 

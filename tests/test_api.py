@@ -154,5 +154,39 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(self.call("GET", "/repositories")[0], 200)
 
 
+    # --- TASK-002: DELETE /repositories/{id} ---
+
+    def test_delete_own_repository(self):
+        self.assertEqual(self.call("DELETE", "/repositories/1", user="alice"), (204, None))
+        _, repos = self.call("GET", "/repositories", user="alice")
+        self.assertEqual([r["id"] for r in repos], [2])
+        for method, path in (("GET", "/repositories/1"), ("GET", "/repositories/1/analysis"),
+                             ("POST", "/repositories/1/scan"), ("DELETE", "/repositories/1")):
+            self.assertEqual(self.call(method, path, user="alice")[0], 404, (method, path))
+
+    def test_delete_someone_elses_repository(self):
+        self.assertEqual(self.call("DELETE", "/repositories/3", user="alice")[0], 403)
+        self.assertEqual(self.call("GET", "/repositories/3/analysis", user="bob")[0], 200)
+
+    def test_delete_needs_x_user_header(self):
+        self.assertEqual(self.call("DELETE", "/repositories/1")[0], 401)
+        self.assertEqual(self.call("GET", "/repositories/1", user="alice")[0], 200)
+
+    def test_delete_with_unknown_user(self):
+        self.assertEqual(self.call("DELETE", "/repositories/1", user="mallory")[0], 401)
+
+    def test_delete_collection_is_still_405(self):
+        self.assertEqual(self.call("DELETE", "/repositories", user="alice")[0], 405)
+
+    def test_register_same_url_again_after_delete(self):
+        _, repo = self.call("GET", "/repositories/1", user="alice")
+        self.call("DELETE", "/repositories/1", user="alice")
+        status, new = self.call("POST", "/repositories", user="alice",
+                                body={"name": "again", "url": repo["url"]})
+        self.assertEqual(status, 201)
+        self.assertNotEqual(new["id"], 1)
+        self.assertEqual(self.call("GET", f"/repositories/{new['id']}/analysis", user="alice")[0], 200)
+
+
 if __name__ == "__main__":
     unittest.main()
