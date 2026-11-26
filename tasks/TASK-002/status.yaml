@@ -1,0 +1,11 @@
+task: TASK-002
+status: READY_FOR_BA
+assigned_to: PRODUCT_BA
+attempt: 1
+updated_by: TRAINER
+routing_mode: SELF_ROUTING
+routing_reason: New task created
+result:
+issue:
+  type:
+  description:
