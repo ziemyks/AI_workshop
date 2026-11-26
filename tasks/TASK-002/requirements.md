@@ -41,3 +41,5 @@ An owner can permanently remove one of their own repositories, and after that th
 ## Product Owner decision
 
 <!-- Filled in at acceptance: ACCEPTED, CHANGES_REQUESTED or REJECTED, and a one-line reason. -->
+
+**ACCEPTED** (Product Owner): owners can permanently remove their own repository and it is gone everywhere, including its analysis, exactly as Business asked; QA passed AC1-AC6 and the full suite (73 tests) passes.

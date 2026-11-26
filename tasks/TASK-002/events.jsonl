@@ -3,3 +3,4 @@
 {"timestamp":"2026-11-26T15:56:49Z","task":"TASK-002","agent":"ARCHITECT","event":"DESIGN_READY","to":"DEVELOPER","reason":"DELETE /repositories/{id}: X-User required, 401/404/403 via _get_owned, 204, removes repository and analysis"}
 {"timestamp":"2026-11-26T15:58:20Z","task":"TASK-002","agent":"DEVELOPER","event":"IMPLEMENTATION_READY","to":"QA","reason":"DELETE /repositories/{id} built, suite 61 OK"}
 {"timestamp":"2026-11-26T16:00:26Z","task":"TASK-002","agent":"QA","event":"QA_PASSED","to":"PRODUCT_OWNER","attempt":1,"reason":"AC1-AC6 pass: 12 QA tests, full suite 73 OK"}
+{"timestamp":"2026-11-26T17:16:14Z","task":"TASK-002","agent":"PRODUCT_OWNER","event":"ACCEPTED","reason":"Owners remove their own repository, gone everywhere incl. analysis; QA passed AC1-AC6"}
