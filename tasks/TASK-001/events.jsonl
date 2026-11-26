@@ -2,3 +2,4 @@
 {"timestamp":"2026-11-26T15:23:19Z","task":"TASK-001","agent":"PRODUCT_BA","event":"REQUIREMENTS_READY","to":"ARCHITECT","reason":"Stage 1 self-assign"}
 {"timestamp":"2026-11-26T15:26:50Z","task":"TASK-001","agent":"ARCHITECT","event":"DESIGN_READY","to":"DEVELOPER","reason":"Design ready: POST /repositories, 201/400/401/409"}
 {"timestamp":"2026-11-26T15:30:27Z","task":"TASK-001","agent":"DEVELOPER","event":"IMPLEMENTATION_READY","to":"QA","reason":"POST /repositories built per design; tests pass"}
+{"timestamp":"2026-11-26T15:32:36Z","task":"TASK-001","agent":"QA","event":"QA_PASSED","to":"PRODUCT_OWNER","attempt":1,"reason":"All 6 ACs pass in tests/test_qa_task001.py; full suite 44 tests OK"}
