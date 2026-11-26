@@ -1,11 +1,11 @@
 task: TASK-001
-status: READY_FOR_PO
-assigned_to: PRODUCT_OWNER
+status: ACCEPTED
+assigned_to:
 attempt: 1
-updated_by: QA
+updated_by: PRODUCT_OWNER
 routing_mode: SELF_ROUTING
-routing_reason: QA passed all six acceptance criteria; ready for Product Owner acceptance
-result: PASSED
+routing_reason: Product Owner accepted; the task is closed
+result: ACCEPTED
 issue:
   type:
   description:

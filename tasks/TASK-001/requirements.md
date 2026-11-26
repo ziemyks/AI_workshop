@@ -40,3 +40,5 @@ A signed-in user can register a new repository (name, URL, optional description)
 ## Product Owner decision
 
 <!-- Filled in at acceptance: ACCEPTED, CHANGES_REQUESTED or REJECTED, and a one-line reason. -->
+
+**ACCEPTED** (Product Owner): people can register a repository with name, URL and optional description, it belongs to them and has an analysis straight away, exactly as Business asked; QA passed AC1-AC6. Refusing registration without a user (401) is accepted, because a repository must have an owner.
