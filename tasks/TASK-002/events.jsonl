@@ -1,1 +1,2 @@
 {"timestamp":"2026-11-26T15:51:27Z","task":"TASK-002","agent":"TRAINER","event":"TASK_CREATED","to":"PRODUCT_BA","reason":"New task created"}
+{"timestamp":"2026-11-26T15:54:49Z","task":"TASK-002","agent":"PRODUCT_BA","event":"REQUIREMENTS_READY","to":"ARCHITECT","reason":"AC1-AC6 for removing an owned repository; permanent, URL reusable, X-User required, 403 for non-owners"}

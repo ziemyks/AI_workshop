@@ -1,11 +1,11 @@
 task: TASK-002
-status: READY_FOR_BA
-assigned_to: PRODUCT_BA
+status: READY_FOR_ARCHITECT
+assigned_to: ARCHITECT
 attempt: 1
-updated_by: TRAINER
+updated_by: PRODUCT_BA
 routing_mode: SELF_ROUTING
-routing_reason: New task created
-result:
+routing_reason: Requirements ready with Product Owner decisions; Architect designs the removal.
+result: DONE
 issue:
   type:
   description:
