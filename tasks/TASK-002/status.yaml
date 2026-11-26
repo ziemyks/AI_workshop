@@ -1,10 +1,10 @@
 task: TASK-002
-status: READY_FOR_ARCHITECT
-assigned_to: ARCHITECT
+status: READY_FOR_DEVELOPMENT
+assigned_to: DEVELOPER
 attempt: 1
-updated_by: PRODUCT_BA
+updated_by: ARCHITECT
 routing_mode: SELF_ROUTING
-routing_reason: Requirements ready with Product Owner decisions; Architect designs the removal.
+routing_reason: Design ready; Developer builds DELETE /repositories/{id}.
 result: DONE
 issue:
   type:
